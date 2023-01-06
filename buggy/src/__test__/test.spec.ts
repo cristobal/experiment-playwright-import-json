@@ -1,5 +1,29 @@
 import { test, expect } from '@playwright/test';
-import jsonData from './test.json';
+
+/*
+  The code here is compiled to ESM by the babel transpiler used by playwright 
+  since it infers the type=module from the package.json
+
+  Since ESM expects assertion for imports of type json we get an error here.
+*/
+
+/* 
+  1. Without assert we get the error:
+  > needs an import assertion of type "json"
+*/
+// import jsonData from './test.json';
+
+/*
+  2. After adding assert here we get the following error:
+  > Support for the experimental syntax 'importAssertions' isn't currently enabled
+  > Add @babel/plugin-syntax-import-assertions ...  to the 'plugins' section of your Babel config to enable parsing.
+*/
+import jsonData from './test.json' assert { type: 'json' };
+
+/*
+  This console.log() here is added deliberately so that we get an error otherwise 
+  the compiler would just tree shake away the unused json import.
+*/
 console.log('jsonData', jsonData);
 
 test('has title', async ({ page }) => {

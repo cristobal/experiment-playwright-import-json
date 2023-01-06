@@ -1,5 +1,15 @@
 import { test, expect } from '@playwright/test';
+
+/*
+  The code here is compiled to CommonJS by the babel transpiler used by playwright 
+  since it infers the type=commonjs from the package.json
+
+  Since CommonJS are then compiled to require imports from the babel code,
+  this works without any error.
+*/
+
 import jsonData from './test.json';
+
 console.log('jsonData', jsonData);
 
 test('has title', async ({ page }) => {
